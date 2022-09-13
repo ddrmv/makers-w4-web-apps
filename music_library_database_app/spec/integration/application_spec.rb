@@ -35,4 +35,15 @@ describe Application do
       expect(response.body).to include "Artist: Pixies"
     end
   end
+
+  context "GET /albums" do
+    it "gets an album by id returns 200 OK" do
+      response = get("/albums")
+      expect(response.status).to eq 200
+      expect(response.body).to include "<h1>Albums</h1>"
+      expect(response.body).to include "Title: Doolittle"
+      expect(response.body).to include "Title: Surfer Rosa"
+      expect(response.body).to include "Title: Ring Ring"
+    end
+  end
 end
