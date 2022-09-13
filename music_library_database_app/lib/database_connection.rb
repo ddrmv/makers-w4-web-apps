@@ -16,7 +16,10 @@ class DatabaseConnection
     else
       database_name = 'music_library'
     end
-    @connection = PG.connect({ host: '127.0.0.1', dbname: database_name })
+    user = 'postgres'
+    password = ENV['PGPASSWORD'].to_s
+    @connection = PG.connect({ host: '127.0.0.1', dbname: database_name, user: user, password: password })
+    # @connection = PG.connect({ host: '127.0.0.1', dbname: database_name })
   end
 
   # This method executes an SQL query 
