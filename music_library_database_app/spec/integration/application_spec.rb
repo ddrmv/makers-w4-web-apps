@@ -19,26 +19,20 @@ describe Application do
   include Rack::Test::Methods
   let(:app) { Application.new }
 
-  #   # Request:
-  # POST /albums
-
-  # # With body parameters:
-  # title=Voyage
-  # release_year=2022
-  # artist_id=2
-
-  # # Expected response (200 OK)
-  # (No content)
-
-
   context "POST /albums" do
-
     it "creates a new album and returns 200 OK" do
-        response = post("/albums", title: "Voyage", release_year: 2022, artist_id: 2)
-        expect(response.status).to eq 200
-
+      response = post("/albums", title: "Voyage", release_year: 2022, artist_id: 2)
+      expect(response.status).to eq 200
     end
   end
 
-
+  context "GET /albums/:id" do
+    it "gets an album by id returns 200 OK" do
+      response = get("/albums/1")
+      expect(response.status).to eq 200
+      expect(response.body).to include "<h1>Doolittle</h1>"
+      expect(response.body).to include "Release year: 1989"
+      expect(response.body).to include "Artist: Pixies"
+    end
+  end
 end

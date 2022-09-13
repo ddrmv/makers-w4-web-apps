@@ -43,4 +43,9 @@ class Application < Sinatra::Base
   #   message = params[:message]
   #   return "Thanks #{name}, you sent this message: \"#{message}\""
   # end
+
+  get "/hello" do
+
+    return erb(:index)
+  end
 end
