@@ -46,4 +46,26 @@ describe Application do
       expect(response.body).to include "Title: Ring Ring"
     end
   end
+
+  context "GET /artists" do
+    it "gets a list of artists and returns 200 OK" do
+      response = get("/artists")
+      expect(response.status).to eq 200
+      expect(response.body).to include "<a href=\"/albums/1\" > Doolittle </a>"
+      expect(response.body).to include "<a href=\"/albums/12\" > Ring Ring </a>"
+    end
+  end
+
+  context "POST /artists" do
+    it "creates a new artist record and returns 200 OK" do
+      response = post("/artists", name: "Wild nothing", genre: "Indie")
+      expect(response.status).to eq 200
+      new_response = get("/artists")
+      expect(new_response.status).to eq 200
+      expect(new_response.body).to eq "Pixies, ABBA, Taylor Swift, " \
+        "Nina Simone, Wild nothing"
+    end
+  end
+
+  
 end
