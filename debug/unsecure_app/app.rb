@@ -11,8 +11,16 @@ class Application < Sinatra::Base
   end
 
   post '/hello' do
-    @name = params[:name]
+    @name = validate_input(params[:name])
 
     return erb(:hello)
+  end
+
+  def validate_input(text)
+    if text.index( /[^[:alnum:]]/ )
+      return "Invalid name input."
+    else
+      return text
+    end
   end
 end

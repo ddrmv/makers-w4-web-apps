@@ -28,4 +28,15 @@ describe Application do
       expect(response.body).to include('Hi Aurora!')
     end
   end
+
+  context 'POST /hello' do
+    it 'should not execute script in the name field' do
+      response = post('/hello',
+      name: '<script>window.alert("You\'ve been p0wn3d!!!!"); document.' \
+        'location.href="https://www.youtube.com/watch?v=34Ig3X59_qA";</script>')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to_not include('p0wn3d')
+    end
+  end
 end
