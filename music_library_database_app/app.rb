@@ -1,6 +1,8 @@
 # file: app.rb
+# frozen_string_literal: true
+
 require 'sinatra'
-require "sinatra/reloader"
+require 'sinatra/reloader'
 require_relative 'lib/database_connection'
 require_relative 'lib/album_repository'
 require_relative 'lib/artist_repository'
@@ -23,24 +25,22 @@ class Application < Sinatra::Base
     repo.create(album)
   end
 
-  get '/albums' do  
+  get '/albums' do
     repo = AlbumRepository.new
     @albums = repo.all
-    return erb(:all_albums)
+    return erb(:albums)
   end
 
   get '/albums/:id' do
     repo = AlbumRepository.new
     @album = repo.find(params[:id])
     @artist = ArtistRepository.new.find(@album.artist_id)
-    return erb(:albums)
+    return erb(:album)
   end
 
   get '/artists' do
     repo = ArtistRepository.new
-    artists = repo.all.map do |artist|
-      artist.name
-    end.join(", ")
+    artists = repo.all.map(&:name).join(', ')
     return artists
   end
 

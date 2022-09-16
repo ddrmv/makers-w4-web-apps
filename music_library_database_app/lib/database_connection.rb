@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # file: lib/database_connection.rb
 
 require 'pg'
@@ -7,24 +9,14 @@ require 'pg'
 # with the database using SQL.
 
 class DatabaseConnection
-  # This method connects to PostgreSQL using the 
-  # PG gem. We connect to 127.0.0.1, and select
-  # the database name given in argument.
   def self.connect
-    if ENV['ENV'] == 'test'
-      database_name = 'music_library_test'
-    else
-      database_name = 'music_library'
-    end
+    db_name = ENV['ENV'] == 'test' ? 'music_library_test' : 'music_library'
     user = 'postgres'
     password = ENV['PGPASSWORD'].to_s
-    @connection = PG.connect({ host: '127.0.0.1', dbname: database_name, user: user, password: password })
+    @connection = PG.connect({ host: '127.0.0.1', dbname: db_name, user: user, password: password })
     # @connection = PG.connect({ host: '127.0.0.1', dbname: database_name })
   end
 
-  # This method executes an SQL query 
-  # on the database, providing some optional parameters
-  # (you will learn a bit later about when to provide these parameters).
   def self.exec_params(query, params)
     if @connection.nil?
       raise 'DatabaseConnection.exec_params: Cannot run a SQL query as the connection to'\

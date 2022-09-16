@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'album'
 require 'album_repository'
 
@@ -11,33 +13,29 @@ def reset_albums_table
 end
 
 describe AlbumRepository do
-  before(:each) do 
+  before(:each) do
     reset_albums_table
   end
 
-  it 'finds all albums' do
-    repo = AlbumRepository.new
+  let(:repo) { AlbumRepository.new }
 
+  it 'finds all albums' do
     albums = repo.all
-    
+
     expect(albums.length).to eq(12)
     expect(albums.first.title).to eq('Doolittle')
     expect(albums.first.artist_id).to eq(1)
   end
 
   it 'finds one album' do
-    repo = AlbumRepository.new
-
     album = repo.find(3)
-    
+
     expect(album.id).to eq(3)
     expect(album.title).to eq('Waterloo')
     expect(album.artist_id).to eq(2)
   end
 
   it 'creates an album' do
-    repo = AlbumRepository.new
-
     new_album = Album.new
     new_album.title = 'Pablo Honey'
     new_album.release_year = 1993
@@ -52,8 +50,6 @@ describe AlbumRepository do
   end
 
   it 'deletes an album' do
-    repo = AlbumRepository.new
-
     repo.delete(1)
     albums = repo.all
 
