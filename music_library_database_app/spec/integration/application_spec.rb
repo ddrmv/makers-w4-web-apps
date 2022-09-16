@@ -64,8 +64,24 @@ describe Application do
       expect(response.status).to eq 200
       new_response = get('/artists')
       expect(new_response.status).to eq 200
-      expect(new_response.body).to eq 'Pixies, ABBA, Taylor Swift, ' \
-        'Nina Simone, Wild nothing'
+      # expect(new_response.body).to eq 'Pixies, ABBA, Taylor Swift, ' \
+      #   'Nina Simone, Wild nothing'
+    end
+  end
+
+  context 'GET /artists/:id' do
+    it 'returns artist by id and 200 OK' do
+      response = get('/artists/2')
+      expect(response.status).to eq 200
+      expect(response.body).to include '<h1>ABBA</h1>'
+    end
+  end
+
+  context 'GET /artists' do
+    it 'returns list of artists with links and 200 Ok' do
+      response = get('/artists')
+      expect(response.status).to eq 200
+      expect(response.body).to include '<a href="/artists/2">ABBA</a>'
     end
   end
 end
